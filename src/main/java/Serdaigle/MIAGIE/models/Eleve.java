@@ -4,45 +4,26 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "eleve")
-public class Eleve {
-    @Column(name="ideleve", nullable = false, unique = true)
+public class Eleve extends Personne {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ideleve", nullable = false, unique = true)
     private Integer idEleve;
 
-    @Column(name="nom", nullable = false, unique = true)
-    private String nom;
-    @Column(name="prenom", nullable = false, unique = true)
-    private String prenom;
-    @Column(name="nommaison", nullable = false, unique = true)
+    @Column(name = "nommaison", nullable = false)
     private String nomMaison;
-    @Column(name="totalpoints", nullable = false, unique = true)
+
+    @Column(name = "totalpoints", nullable = false)
     private int totalPoints;
 
-    // Getters et Setters
+    // Getters et Setters pour les champs propres à Eleve
     public Integer getIdEleve() {
         return idEleve;
     }
 
     public void setIdEleve(Integer idEleve) {
         this.idEleve = idEleve;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getPrenom() {
-        return prenom;
-    }
-
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
     }
 
     public String getNomMaison() {
@@ -60,4 +41,6 @@ public class Eleve {
     public void setTotalPoints(int totalPoints) {
         this.totalPoints = totalPoints;
     }
+
+    // Implémenter ici les méthodes abstraites de Personne
 }
