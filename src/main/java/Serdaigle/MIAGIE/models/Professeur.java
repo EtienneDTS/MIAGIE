@@ -19,7 +19,7 @@ public class Professeur extends Personne {
     @ElementCollection
     @CollectionTable(name = "matieres", joinColumns = @JoinColumn(name = "idprofesseur"))
     @Column(name = "matiere")
-    private List<String> matieresEnseignees;
+    private List<Matiere> matieresEnseignees;
 
     // Getters et Setters
     public Integer getIdProfesseur() {
@@ -38,11 +38,11 @@ public class Professeur extends Personne {
         this.nomMaison = nomMaison;
     }
 
-    public List<String> getMatieresEnseignees() {
+    public List<Matiere> getMatieresEnseignees() {
         return matieresEnseignees;
     }
 
-    public void setMatieresEnseignees(List<String> matieresEnseignees) {
+    public void setMatieresEnseignees(List<Matiere> matieresEnseignees) {
         this.matieresEnseignees = matieresEnseignees;
     }
 
