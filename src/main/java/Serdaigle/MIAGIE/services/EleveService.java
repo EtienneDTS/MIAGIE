@@ -20,6 +20,7 @@ public class EleveService {
 
     // Méthode pour obtenir tous les élèves
     public List<Eleve> getAllEleves() {
+
         return eleveRepository.findAll();
     }
 
