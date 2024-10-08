@@ -11,3 +11,4 @@ public class HtmlController {
         return "hello"; // Le nom du fichier HTML sans l'extension .html
     }
 }
+// salut
