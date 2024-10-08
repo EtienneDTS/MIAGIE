@@ -41,8 +41,13 @@ public class EleveController {
     /*
      * Endpoint pour obtenir un élève par ID
      */
-    public Optional<Eleve> getEleveById(@PathVariable int id) {
-        return eleveService.getEleveById(id);
+    public ResponseEntity<Eleve> getEleveById(@PathVariable Integer id) {
+        Optional<Eleve> eleve = eleveRepository.findById(id);
+        if (eleve.isPresent()) {
+            return ResponseEntity.ok(eleve.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     public Eleve addEleve(@RequestBody Eleve eleve) {
