@@ -7,38 +7,55 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-
+/* 
+ * Cette classe est un controleur REST
+ */
 @RestController
+/*
+ * Les routes commencant par /eleves seront traités par ce controleur
+ */
 @RequestMapping("/eleves")
 public class EleveController {
 
     private final EleveService eleveService;
-
+    /*
+     * injection de EleveRepository pour interagir avec la base de données
+     */
     @Autowired
     public EleveController(EleveService eleveService) {
         this.eleveService = eleveService;
     }
 
-    // Endpoint pour obtenir tous les élèves
     @GetMapping
+    /*
+     * Endpoint pour obtenir tous les élèves
+     */
     public List<Eleve> getAllEleves() {
         return eleveService.getAllEleves();
     }
 
-    // Endpoint pour obtenir un élève par ID
+    /*
+     * methode répondant aux requetes GET avec un iD dans l'URL
+     */
     @GetMapping("/{id}")
+    /*
+     * Endpoint pour obtenir un élève par ID
+     */
     public Optional<Eleve> getEleveById(@PathVariable int id) {
         return eleveService.getEleveById(id);
     }
 
-    // Endpoint pour ajouter un nouvel élève
-    @PostMapping
     public Eleve addEleve(@RequestBody Eleve eleve) {
+        /*
+         * Endpoint pour ajouter un nouvel élève
+         */
         return eleveService.addEleve(eleve);
     }
 
-    // Endpoint pour supprimer un élève
     @DeleteMapping("/{id}")
+    /*
+     * Endpoint pour supprimer un élève
+     */
     public void deleteEleve(@PathVariable int id) {
         eleveService.deleteEleve(id);
     }

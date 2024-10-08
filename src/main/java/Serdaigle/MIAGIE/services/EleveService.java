@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+/*
+ * Cette classe contient la logique métier de l'application
+ */
 @Service
 public class EleveService {
 
