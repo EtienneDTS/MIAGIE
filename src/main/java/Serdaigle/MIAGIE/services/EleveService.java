@@ -20,22 +20,43 @@ public class EleveService {
         this.eleveRepository = eleveRepository;
     }
 
-    // Méthode pour obtenir tous les élèves
+    /*
+     * Méthode pour obtenir tous les élèves
+     */ 
     public List<Eleve> getAllEleves() {
         return eleveRepository.findAll();
     }
 
-    // Méthode pour obtenir un élève par son ID
+    /*
+     * Méthode pour obtenir un élève par son ID
+     */
     public Optional<Eleve> getEleveById(int id) {
         return eleveRepository.findById(id);
     }
 
-    // Méthode pour ajouter un nouvel élève
+    /*
+     * Méthode pour filtrer les élèves selon des critères 
+     * de points et d'appartenance aux maisons
+     */
+    public List<Eleve> filtrerEleves(String nomMaison, Integer totalPoints){
+        if(nomMaison != null && !nomMaison.isEmpty()){
+            return eleveRepository.findByNomMaison(nomMaison);
+        } else if(totalPoints != null){
+            return eleveRepository.findByTotalPoints(totalPoints);
+        }
+        return eleveRepository.findAll(); //retourne tous les élèves par défaut
+    }
+
+    /*
+     * Méthode pour ajouter un nouvel élève
+     */
     public Eleve addEleve(Eleve eleve) {
         return eleveRepository.save(eleve);
     }
 
-    // Méthode pour supprimer un élève
+    /*
+     * Méthode pour supprimer un élève
+     */
     public void deleteEleve(int id) {
         eleveRepository.deleteById(id);
     }

@@ -35,6 +35,16 @@ public class EleveController {
     }
 
     /*
+     * endpoint pour filtrer les élèves selon différents paramètres
+     * @RequestParam permet d'extraire les paramètres de la requête (facultatif avec 'false')
+     */
+    public List<Eleve> filtrerEleves(
+        @RequestParam(required = false) String nomMaison,
+        @RequestParam(required = false) Integer totalPoints){
+        return eleveService.filtrerEleves(nomMaison, totalPoints)
+        }
+    
+    /*
      * methode répondant aux requetes GET avec un iD dans l'URL
      */
     @GetMapping("/{id}")
@@ -50,10 +60,10 @@ public class EleveController {
         }
     }
 
+    /*
+     * Endpoint pour ajouter un nouvel élève
+     */
     public Eleve addEleve(@RequestBody Eleve eleve) {
-        /*
-         * Endpoint pour ajouter un nouvel élève
-         */
         return eleveService.addEleve(eleve);
     }
 
