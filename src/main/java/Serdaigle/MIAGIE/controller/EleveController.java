@@ -12,13 +12,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-/*
- * Cette classe est un controleur REST
+/**
+ * Le contrôleur REST pour gérer les opérations liées aux entités "Eleve".
+ * Il fournit des endpoints pour ajouter, récupérer, et supprimer des élèves
+ * via des requêtes HTTP.
  */
 @RestController
-/*
- * Les routes commencant par /eleves seront traités par ce controleur
- */
 @RequestMapping("/eleve")
 public class EleveController {
 
@@ -26,26 +25,29 @@ public class EleveController {
     private final EcoleService ecoleService;
 
     /**
+     * Constructeur pour initialiser le contrôleur avec le service {@link EcoleService}.
      *
-     * @param ecoleService
+     * @param ecoleService Le service de l'école utilisé pour effectuer les opérations sur les entités Eleve.
      */
     public EleveController(EcoleService ecoleService) {
         this.ecoleService = ecoleService;
     }
 
-    @GetMapping
-    /*
-     * Endpoint pour obtenir tous les élèves
+    /**
+     * Récupère tous les élèves.
+     *
+     * @return Un iterable contenant tous les élèves disponibles dans la base de données.
      */
+    @GetMapping
     public Iterable<Eleve> getAllEleves() {
         return ecoleService.getAllEleves();
     }
 
-
     /**
-     * Recoit les appel
-     * @param id
-     * @return
+     * Récupère les informations d'un élève spécifique par son ID.
+     *
+     * @param id L'identifiant de l'élève à récupérer.
+     * @return Une réponse HTTP contenant l'élève si trouvé, sinon une réponse 404 (Not Found).
      */
     @GetMapping("/{id}")
     public ResponseEntity<Eleve> getEleve(@PathVariable Integer id) {
@@ -57,8 +59,12 @@ public class EleveController {
         }
     }
 
-    /*
-     * Endpoint pour ajouter un nouvel élève
+    /**
+     * Crée un nouvel élève.
+     *
+     * @param body Un objet JSON contenant les informations nécessaires pour créer un élève,
+     *             notamment "nom", "prenom", et "nomMaison".
+     * @return L'entité Eleve nouvellement créée.
      */
     @PostMapping
     public Eleve createEleve(@RequestBody Map<String, String> body) {
@@ -68,10 +74,13 @@ public class EleveController {
         return ecoleService.addEleve(nom,prenom,nomMaison);
     }
 
-    @DeleteMapping("/{id}")
-    /*
-     * Endpoint pour supprimer un élève
+
+    /**
+     * Supprime un élève par son ID.
+     *
+     * @param id L'identifiant de l'élève à supprimer.
      */
+    @DeleteMapping("/{id}")
     public void deleteEleve(@PathVariable int id) {
         this.ecoleService.deleteEleve(id);
     }
