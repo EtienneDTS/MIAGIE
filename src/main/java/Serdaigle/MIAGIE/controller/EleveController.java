@@ -35,7 +35,8 @@ public class EleveController {
     /*
      * Endpoint pour obtenir tous les élèves
      */
-    public Iterable<Eleve> getAllEleves(@RequestParam(name = "filter", required = false) String filter) {
+    public Iterable<EleveDTO> getAllEleves(@RequestParam(name = "filter", required = false) String filter) {
+        Iterable<EleveDTO> eleves = ecoleService.getAllEleves(filter);
         return ecoleService.getAllEleves(filter);
     }
 

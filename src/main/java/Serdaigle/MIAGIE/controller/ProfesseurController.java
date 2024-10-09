@@ -1,7 +1,9 @@
 package Serdaigle.MIAGIE.controller;
 
+import Serdaigle.MIAGIE.dto.ProfesseurDTO;
 import Serdaigle.MIAGIE.model.Professeur;
 import Serdaigle.MIAGIE.service.EcoleService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,15 +23,16 @@ public class ProfesseurController {
 
     // GET /professeur : Récupérer la liste de tous les professeurs
     @GetMapping
-    public Iterable<Professeur> getAllProfesseurs(@RequestParam(name = "filter", required = false) String filter) {
+    public Iterable<ProfesseurDTO> getAllProfesseurs(@RequestParam(name = "filter", required = false) String filter) {
         return ecoleService.getAllProfesseurs(filter);
     }
 
     // GET /professeur/{id} : Récupérer un professeur par son ID
     @GetMapping("/{id}")
-    public ResponseEntity<Professeur> getProfesseurById(@PathVariable Integer id) {
-        Optional<Professeur> professeur = Optional.ofNullable(ecoleService.getProfesseurById(id));
-        return professeur.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<ProfesseurDTO> getProfesseurById(@PathVariable Integer id) {
+        ProfesseurDTO professeur = ecoleService.getProfesseurById(id);
+        return new ResponseEntity<>(professeur, HttpStatus.OK);
+
     }
 
     // POST /professeur : Créer un nouveau professeur ou mettre à jour un professeur existant

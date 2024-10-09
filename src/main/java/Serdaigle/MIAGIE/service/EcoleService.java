@@ -2,6 +2,7 @@ package Serdaigle.MIAGIE.service;
 
 import Serdaigle.MIAGIE.dto.EleveDTO;
 import Serdaigle.MIAGIE.dto.MaisonDTO;
+import Serdaigle.MIAGIE.dto.ProfesseurDTO;
 import Serdaigle.MIAGIE.exception.EleveNotFoundException;
 import Serdaigle.MIAGIE.exception.ProfesseurNotFoundException;
 import Serdaigle.MIAGIE.model.*;
@@ -33,16 +34,23 @@ public class EcoleService {
 
     // Appels des méthodes Professeur
 
-    public Iterable<Professeur> getAllProfesseurs(String filter) {
+    public Iterable<ProfesseurDTO> getAllProfesseurs(String filter) {
+        Iterable<ProfesseurDTO> professeurs = new ArrayList<>();
         if (filter == null || filter.isEmpty()) {
-            return professeurRepository.findAll();
+            List<Professeur> professeurdb = professeurRepository.findAll();
+            return this.convertDBProfesseurListtoDTOList(professeurdb);
         }
-        return professeurRepository.searchWithFilter(filter);
+        List<Professeur> professeurdb = professeurRepository.searchWithFilter(filter);
+        return this.convertDBProfesseurListtoDTOList(professeurdb);
+
     }
 
-    public Professeur getProfesseurById(Integer id) {
+    public ProfesseurDTO getProfesseurById(Integer id) {
         Optional<Professeur> professeur = professeurRepository.findById(id);
-        return professeur.orElseThrow(() -> new ProfesseurNotFoundException("Teacher not found with id: " + id));
+        if(!professeur.isPresent()) {
+            throw new ProfesseurNotFoundException("Teacher not found :"+id);
+        }
+        return this.convertProfesseurToDto(professeur.get());
     }
 
     public Professeur saveProfesseur(String nom, String prenom, String nomMatiere) {
@@ -60,11 +68,14 @@ public class EcoleService {
     /*
      * Méthode pour obtenir tous les élèves
      */
-    public Iterable<Eleve> getAllEleves(String filter) {
+    public Iterable<EleveDTO> getAllEleves(String filter) {
+        Iterable<EleveDTO> eleves = new ArrayList<>();
         if (filter == null || filter.isEmpty()) {
-            return eleveRepository.findAll();
+            List<Eleve> elevesdb = eleveRepository.findAll();
+            return this.convertDBElevesListtoDTOList(elevesdb);
         }
-        return eleveRepository.searchWithFilter(filter);
+        List<Eleve> elevesdb = eleveRepository.searchWithFilter(filter);
+        return this.convertDBElevesListtoDTOList(elevesdb);
     }
 
     /*
@@ -181,8 +192,8 @@ public class EcoleService {
     public Evaluer addEvaluer(int idEleve, int idProfesseur, int nbPoints) {
 
         Eleve eleve = this.getEleveById(idEleve);
-        Professeur professeur = this.getProfesseurById(idProfesseur);
-        String nomMatiere = professeur.getNomMatiere().getNomMatiere();
+        ProfesseurDTO professeur = this.getProfesseurById(idProfesseur);
+        String nomMatiere = professeur.getNomMatiere();
 
         // Créer l'ID composite pour Evaluer
         EvaluerId evaluerId = new EvaluerId();
@@ -213,7 +224,11 @@ public class EcoleService {
         return elevesPasASerdaigle;
     }
 
-
+    public MaisonDTO getMaisonGagnante() {
+        Maison maison = maisonRepository.getMaisonGagnante();
+        MaisonDTO maisonDTO = this.convertMaisonToDto(maison);
+        return maisonDTO;
+    }
 
 
 
@@ -247,10 +262,23 @@ public class EcoleService {
         return elevesDto;
     }
 
-
-    public MaisonDTO getMaisonGagnante() {
-        Maison maison = maisonRepository.getMaisonGagnante();
-        MaisonDTO maisonDTO = this.convertMaisonToDto(maison);
-        return maisonDTO;
+    private ProfesseurDTO convertProfesseurToDto(Professeur professeur) {
+        return new ProfesseurDTO(
+                professeur.getId(),
+                professeur.getNom(),
+                professeur.getPrenom(),
+                professeur.getNomMatiere().getNomMatiere()
+        );
     }
+
+    private ArrayList<ProfesseurDTO> convertDBProfesseurListtoDTOList(List<Professeur> professeurs){
+        ArrayList<ProfesseurDTO> professeurDto= new ArrayList<>();
+        for (Professeur p : professeurs){
+            professeurDto.add(this.convertProfesseurToDto(p));
+        }
+        return professeurDto;
+    }
+
+
+
 }
