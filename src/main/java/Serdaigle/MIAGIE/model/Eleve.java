@@ -11,7 +11,7 @@ public class Eleve {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idEleve", nullable = false)
-    private Integer id;
+    private Integer idEleve;
 
     @ColumnDefault("0")
     @Column(name = "totalPoints")
@@ -25,8 +25,7 @@ public class Eleve {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nomMaison", referencedColumnName = "nomMaison", nullable = false)
-    @JsonBackReference
-    private Maison maison;
+    private Maison nomMaison;
 
     public Eleve() {
     }
@@ -35,19 +34,19 @@ public class Eleve {
      * @return
      */
     public Integer getId() {
-        return id;
+        return idEleve;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.idEleve = id;
     }
 
     public Maison getMaison() {
-        return maison;
+        return nomMaison;
     }
 
     public void setMaison(Maison maison) {
-        this.maison = maison;
+        this.nomMaison = maison;
     }
 
     public Integer getTotalPoints() {
