@@ -1,5 +1,6 @@
 package Serdaigle.MIAGIE.controller;
 
+import Serdaigle.MIAGIE.dto.MaisonDTO;
 import Serdaigle.MIAGIE.model.Maison;
 import Serdaigle.MIAGIE.model.Matiere;
 import Serdaigle.MIAGIE.service.EcoleService;
@@ -48,9 +49,10 @@ public class MaisonController {
      */
     // Endpoint pour trouver une maison par son nom
     @GetMapping("/{nomMaison}")
-    public ResponseEntity<Maison> getMaisonByNom(@PathVariable String nomMaison) {
+    public ResponseEntity<MaisonDTO> getMaisonByNom(@PathVariable String nomMaison) {
         Maison maison = ecoleService.getMaisonWithElevesByNomMaison(nomMaison);
-        return ResponseEntity.ok(maison);
+        MaisonDTO maisonDto = ecoleService.convertToDto(maison);
+        return ResponseEntity.ok(maisonDto);
 
     }
 

@@ -1,5 +1,6 @@
 package Serdaigle.MIAGIE.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -16,8 +17,9 @@ public class Maison {
     @Column(name = "nomMaison", nullable = false, length = 50)
     private String nomMaison;
 
-    @OneToMany(mappedBy = "maison", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "nomMaison", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
+    @JsonIgnore
     private List<Eleve> eleves;
 
     public String getNomMaison() {

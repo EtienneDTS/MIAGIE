@@ -1,5 +1,7 @@
 package Serdaigle.MIAGIE.service;
 
+import Serdaigle.MIAGIE.dto.EleveDTO;
+import Serdaigle.MIAGIE.dto.MaisonDTO;
 import Serdaigle.MIAGIE.exception.EleveNotFoundException;
 import Serdaigle.MIAGIE.exception.ProfesseurNotFoundException;
 import Serdaigle.MIAGIE.model.Eleve;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service gérant les opérations métiers pour l'école.
@@ -121,13 +124,15 @@ public class EcoleService {
         return eleve.orElseThrow(() -> new EleveNotFoundException("Student not found with id: " + id));
     }
 
-    /**
-     * Méthode pour ajouter un nouvel élève.
-     *
-     * @param nom Nom de l'élève.
-     * @param prenom Prénom de l'élève.
-     * @param nomMaison Nom de la maison à laquelle l'élève appartient.
-     * @return L'élève créé.
+    public Eleve getEleveByIdWithMaison(int idEleve) {
+        //Eleve eleve = eleveRepository.getEleveByIdWithMaison(idEleve);
+        //return eleve;
+        return eleveRepository.getEleveByIdWithMaison(idEleve);
+
+    }
+
+    /*
+     * Méthode pour ajouter un nouvel élève
      */
     public Eleve addEleve(String nom, String prenom, String nomMaison) {
 
@@ -194,6 +199,23 @@ public class EcoleService {
         Maison maison = maisonRepository.getMaisonWithElevesByNomMaison(nomMaison);
         return maison;
 
+    }
+
+    public MaisonDTO convertToDto(Maison maison) {
+        MaisonDTO maisonDto = new MaisonDTO();
+        maisonDto.setNomMaison(maison.getNomMaison());
+
+        List<EleveDTO> eleveDtos = maison.getEleves().stream().map(eleve -> {
+            EleveDTO eleveDto = new EleveDTO();
+            eleveDto.setIdEleve(eleve.getId());
+            eleveDto.setTotalPoints(eleve.getTotalPoints());
+            eleveDto.setNom(eleve.getNom());
+            eleveDto.setPrenom(eleve.getPrenom());
+            return eleveDto;
+        }).collect(Collectors.toList());
+
+        maisonDto.setEleves(eleveDtos);
+        return maisonDto;
     }
 
     /*

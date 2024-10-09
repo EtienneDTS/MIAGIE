@@ -52,7 +52,7 @@ public class EleveController {
     @GetMapping("/{id}")
     public ResponseEntity<Eleve> getEleve(@PathVariable Integer id) {
         try {
-            Eleve eleve = ecoleService.getEleveById(id);
+            Eleve eleve = ecoleService.getEleveByIdWithMaison(id); //Méthode surchargée
             return new ResponseEntity<>(eleve, HttpStatus.OK); // 200 OK
         } catch (EleveNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); // 404 Not Found
