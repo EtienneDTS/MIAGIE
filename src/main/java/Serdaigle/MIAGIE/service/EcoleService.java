@@ -33,8 +33,11 @@ public class EcoleService {
 
     // Appels des méthodes Professeur
 
-    public Iterable<Professeur> getAllProfesseurs() {
-        return professeurRepository.findAll();
+    public Iterable<Professeur> getAllProfesseurs(String filter) {
+        if (filter == null || filter.isEmpty()) {
+            return professeurRepository.findAll();
+        }
+        return professeurRepository.searchWithFilter(filter);
     }
 
     public Professeur getProfesseurById(Integer id) {
@@ -57,8 +60,11 @@ public class EcoleService {
     /*
      * Méthode pour obtenir tous les élèves
      */
-    public Iterable<Eleve> getAllEleves() {
-        return eleveRepository.findAll();
+    public Iterable<Eleve> getAllEleves(String filter) {
+        if (filter == null || filter.isEmpty()) {
+            return eleveRepository.findAll();
+        }
+        return eleveRepository.searchWithFilter(filter);
     }
 
     /*
@@ -116,6 +122,12 @@ public class EcoleService {
         eleveRepository.deleteById(id);
     }
 
+    public Iterable<EleveDTO> searchWithFilter(String nom){
+        List<Eleve> eleves = this.eleveRepository.searchWithFilter(nom);
+        return this.convertDBElevesListtoDTOList(eleves);
+    }
+
+
     // Appels matières
     public Iterable<Matiere> getAllMatieres() {
         return matiereRepository.findAll();
@@ -125,6 +137,8 @@ public class EcoleService {
         Matiere matiere = matiereRepository.findByNomMatiere(nomMatiere);
         return matiere;
     }
+
+
 
 
     // Methodes Maisons

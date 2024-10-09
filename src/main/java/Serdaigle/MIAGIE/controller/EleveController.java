@@ -35,8 +35,8 @@ public class EleveController {
     /*
      * Endpoint pour obtenir tous les élèves
      */
-    public Iterable<Eleve> getAllEleves() {
-        return ecoleService.getAllEleves();
+    public Iterable<Eleve> getAllEleves(@RequestParam(name = "filter", required = false) String filter) {
+        return ecoleService.getAllEleves(filter);
     }
 
 
@@ -53,6 +53,12 @@ public class EleveController {
         } catch (EleveNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); // 404 Not Found
         }
+    }
+
+    @GetMapping("/search")
+    public Iterable<EleveDTO> searchWithFilter(@PathVariable String nom){
+        Iterable<EleveDTO> eleves = this.ecoleService.searchWithFilter(nom);
+        return eleves;
     }
 
     @GetMapping("/fromOtherHouses")

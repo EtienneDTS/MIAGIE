@@ -21,8 +21,8 @@ public class ProfesseurController {
 
     // GET /professeur : Récupérer la liste de tous les professeurs
     @GetMapping
-    public Iterable<Professeur> getAllProfesseurs() {
-        return ecoleService.getAllProfesseurs();
+    public Iterable<Professeur> getAllProfesseurs(@RequestParam(name = "filter", required = false) String filter) {
+        return ecoleService.getAllProfesseurs(filter);
     }
 
     // GET /professeur/{id} : Récupérer un professeur par son ID
