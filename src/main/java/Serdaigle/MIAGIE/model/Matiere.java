@@ -1,5 +1,7 @@
 package Serdaigle.MIAGIE.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -9,8 +11,11 @@ import jakarta.persistence.Table;
 
 public class Matiere {
     @Id
-    @Column(name = "nommatiere", nullable = false, length = 50)
+    @Column(name = "nomMatiere", nullable = false, length = 50)
     private String nomMatiere;
+
+    public Matiere() {
+    }
 
     public String getNomMatiere() {
         return nomMatiere;

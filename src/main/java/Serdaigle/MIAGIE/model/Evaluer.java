@@ -12,13 +12,13 @@ public class Evaluer {
 
     @MapsId("idEleve")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "ideleve", nullable = false)
+    @JoinColumn(name = "idEleve", nullable = false)
     private Eleve idEleve;
 
     @Column(name = "note")
     private Integer note;
 
-    @Column(name = "dateeval")
+    @Column(name = "dateEval")
     private LocalDate dateEval;
 
     public EvaluerId getId() {

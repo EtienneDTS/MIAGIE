@@ -1,5 +1,7 @@
 package Serdaigle.MIAGIE.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -8,11 +10,11 @@ import org.hibernate.annotations.ColumnDefault;
 public class Eleve {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ideleve", nullable = false)
+    @Column(name = "idEleve", nullable = false)
     private Integer id;
 
     @ColumnDefault("0")
-    @Column(name = "totalpoints")
+    @Column(name = "totalPoints")
     private Integer totalPoints;
 
     @Column(name = "nom", length = 50)
@@ -21,12 +23,28 @@ public class Eleve {
     @Column(name = "prenom", length = 50)
     private String prenom;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "nomMaison", referencedColumnName = "nomMaison", nullable = false)
+    @JsonBackReference
+    private Maison nomMaison;  // Remplace le String par Maison
+
+    public Eleve() {
+    }
+
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public void setNomMaison(Maison nomMaison) {
+        this.nomMaison = nomMaison;
+    }
+    public Maison getNomMaison() {
+        return this.nomMaison;
     }
 
     public Integer getTotalPoints() {

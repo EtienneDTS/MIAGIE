@@ -10,7 +10,7 @@ public class Mouvement {
 
     @MapsId("idEleve")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "ideleve", nullable = false)
+    @JoinColumn(name = "idEleve", nullable = false)
     private Eleve idEleve;
 
     @Column(name = "timestampp", length = 50)

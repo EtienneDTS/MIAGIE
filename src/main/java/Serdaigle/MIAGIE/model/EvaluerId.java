@@ -9,10 +9,10 @@ import java.util.Objects;
 @Embeddable
 public class EvaluerId implements java.io.Serializable {
     private static final long serialVersionUID = 5268995373866791819L;
-    @Column(name = "ideleve", nullable = false)
+    @Column(name = "idEleve", nullable = false)
     private Integer idEleve;
 
-    @Column(name = "nommatiere", nullable = false, length = 50)
+    @Column(name = "nomMatiere", nullable = false, length = 50)
     private String nomMatiere;
 
     public Integer getIdEleve() {

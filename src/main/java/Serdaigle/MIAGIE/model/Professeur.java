@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 public class Professeur {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idprofesseur", nullable = false)
+    @Column(name = "idProfesseur", nullable = false)
     private Integer id;
 
     @Column(name = "nom", length = 50)
@@ -18,9 +18,19 @@ public class Professeur {
     private String prenom;
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "nommatiere", nullable = false)
-    private Matiere nomMatiere;
+    //@ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "nomMatiere", referencedColumnName = "nomMatiere", nullable = false)
+    private String nomMatiere;
+
+    public Professeur(String nom, String prenom, String nomMatiere) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.nomMatiere = nomMatiere;
+    }
+
+    public Professeur() {
+
+    }
 
     public Integer getId() {
         return id;
@@ -46,11 +56,11 @@ public class Professeur {
         this.prenom = prenom;
     }
 
-    public Matiere getNomMatiere() {
+    public String getNomMatiere() {
         return nomMatiere;
     }
 
-    public void setNomMatiere(Matiere nomMatiere) {
+    public void setNomMatiere(String nomMatiere) {
         this.nomMatiere = nomMatiere;
     }
 

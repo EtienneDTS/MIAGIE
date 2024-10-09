@@ -9,7 +9,7 @@ import java.util.Objects;
 @Embeddable
 public class MouvementId implements java.io.Serializable {
     private static final long serialVersionUID = 6957316629164369763L;
-    @Column(name = "ideleve", nullable = false)
+    @Column(name = "idEleve", nullable = false)
     private Integer idEleve;
 
     @Column(name = "mouv", nullable = false, length = 50)
