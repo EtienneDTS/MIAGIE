@@ -3,8 +3,15 @@ package Serdaigle.MIAGIE.dto;
 import java.util.List;
 
 public class MaisonDTO {
-    private String nomMaison;
+    private final String nomMaison;
     private List<EleveDTO> eleves;
+    private int nbPointTotal;
+
+    public MaisonDTO(String nomMaison,int nbPointTotal, List<EleveDTO> eleves) {
+        this.nomMaison = nomMaison;
+        this.eleves = eleves;
+        this.nbPointTotal = nbPointTotal;
+    }
 
     // Getters and setters
 
@@ -12,15 +19,17 @@ public class MaisonDTO {
         return nomMaison;
     }
 
-    public void setNomMaison(String nomMaison) {
-        this.nomMaison = nomMaison;
+    public int getNbPointTotal() {
+        return nbPointTotal;
+    }
+
+    public void setEleves(List<EleveDTO> eleves) {
+        this.eleves = eleves;
     }
 
     public List<EleveDTO> getEleves() {
         return eleves;
     }
 
-    public void setEleves(List<EleveDTO> eleves) {
-        this.eleves = eleves;
-    }
+
 }

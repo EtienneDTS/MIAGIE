@@ -1,15 +1,13 @@
 package Serdaigle.MIAGIE.controller;
 
+import Serdaigle.MIAGIE.dto.EleveDTO;
 import Serdaigle.MIAGIE.exception.EleveNotFoundException;
-import Serdaigle.MIAGIE.exception.ProfesseurNotFoundException;
 import Serdaigle.MIAGIE.model.Eleve;
-import Serdaigle.MIAGIE.model.Professeur;
 import Serdaigle.MIAGIE.service.EcoleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -50,21 +48,22 @@ public class EleveController {
      * @return Une réponse HTTP contenant l'élève si trouvé, sinon une réponse 404 (Not Found).
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Eleve> getEleve(@PathVariable Integer id) {
+    public ResponseEntity<EleveDTO> getEleve(@PathVariable Integer id) {
         try {
-            Eleve eleve = ecoleService.getEleveByIdWithMaison(id); //Méthode surchargée
+            EleveDTO eleve = ecoleService.getEleveByIdWithMaison(id); //Méthode surchargée
             return new ResponseEntity<>(eleve, HttpStatus.OK); // 200 OK
         } catch (EleveNotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); // 404 Not Found
         }
     }
 
-    /**
-     * Crée un nouvel élève.
-     *
-     * @param body Un objet JSON contenant les informations nécessaires pour créer un élève,
-     *             notamment "nom", "prenom", et "nomMaison".
-     * @return L'entité Eleve nouvellement créée.
+    @GetMapping("/fromOtherHouses")
+    public Iterable<EleveDTO> getFromOtherHouses() {
+        return ecoleService.getEleveFromOtherHouse();
+    }
+
+    /*
+     * Endpoint pour ajouter un nouvel élève
      */
     @PostMapping
     public Eleve createEleve(@RequestBody Map<String, String> body) {

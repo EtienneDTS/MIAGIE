@@ -36,7 +36,7 @@ public class MaisonController {
      * @return Une liste d'objets Maison représentant toutes les maisons disponibles dans le système.
      */
     @GetMapping
-    public Iterable<Maison> getAllMaisons() {
+    public Iterable<MaisonDTO> getAllMaisons() {
         return ecoleService.getAllMaisons();
     }
 
@@ -51,10 +51,19 @@ public class MaisonController {
     @GetMapping("/{nomMaison}")
     public ResponseEntity<MaisonDTO> getMaisonByNom(@PathVariable String nomMaison) {
         Maison maison = ecoleService.getMaisonWithElevesByNomMaison(nomMaison);
-        MaisonDTO maisonDto = ecoleService.convertToDto(maison);
+        MaisonDTO maisonDto = ecoleService.convertMaisonToDto(maison);
         return ResponseEntity.ok(maisonDto);
-
     }
 
-    // Autres endpoints pour créer, modifier, supprimer des matières...
+
+
+    @GetMapping("/nomMaisonGagnante")
+    public ResponseEntity<MaisonDTO> getMaisonGagnante() {
+        MaisonDTO nomMaisonGagnante = this.ecoleService.getMaisonGagnante();
+        return ResponseEntity.ok(nomMaisonGagnante);
+    }
+
+
+
+
 }

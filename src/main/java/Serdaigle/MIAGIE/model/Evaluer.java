@@ -1,5 +1,6 @@
 package Serdaigle.MIAGIE.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -18,11 +19,14 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "evaluer", schema = "miagie")
 public class Evaluer {
+
+    public Evaluer() {}
+
     @EmbeddedId
     private EvaluerId id;
 
     @MapsId("idEleve")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "idEleve", nullable = false)
     private Eleve idEleve;
 
@@ -31,6 +35,10 @@ public class Evaluer {
 
     @Column(name = "dateEval")
     private LocalDate dateEval;
+
+    //@ManyToOne(fetch = FetchType.LAZY)
+    //@JoinColumn(name = "nomMatiere", referencedColumnName = "nomMatiere", nullable = false, insertable=false)
+    //private Matiere nomMatiere;
 
     public EvaluerId getId() {
         return id;
@@ -63,5 +71,9 @@ public class Evaluer {
     public void setDateEval(LocalDate dateEval) {
         this.dateEval = dateEval;
     }
+
+    //public Matiere getNomMatiere() { return nomMatiere; }
+
+    //public void setNomMatiere(Matiere nomMatiere) {this.nomMatiere = nomMatiere; }
 
 }
