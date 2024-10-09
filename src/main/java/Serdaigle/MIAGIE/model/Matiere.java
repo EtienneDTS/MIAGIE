@@ -6,6 +6,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
+/**
+ * Représente une matière dans le système.
+ * La matière est identifiée par son nom unique.
+ */
 @Entity
 @Table(name = "matiere", schema = "miagie")
 

@@ -4,6 +4,17 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
+/**
+ * Représente l'évaluation d'un élève dans le système MIAGIE.
+ *
+ * La classe Evaluer correspond à l'entité "evaluer" dans la base de données,
+ * qui stocke les informations sur les notes attribuées aux élèves à une date donnée.
+ * Elle utilise une clé composite pour lier un élève à une évaluation.
+ *
+ * @author VotreNom
+ * @version 1.0
+ * @since 2024-10-09
+ */
 @Entity
 @Table(name = "evaluer", schema = "miagie")
 public class Evaluer {

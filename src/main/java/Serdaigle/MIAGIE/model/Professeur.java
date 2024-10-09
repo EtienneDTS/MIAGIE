@@ -4,6 +4,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
+/**
+ * Classe représentant un professeur dans le système MIAGIE.
+ * Un professeur est associé à une matière et a des informations
+ * sur son nom et prénom.
+ */
 @Entity
 @Table(name = "professeur", schema = "miagie")
 public class Professeur {
@@ -24,12 +29,22 @@ public class Professeur {
     @JsonBackReference
     private Matiere nomMatiere;
 
+    /**
+     * Constructeur de la classe Professeur.
+     *
+     * @param nom       Le nom du professeur.
+     * @param prenom    Le prénom du professeur.
+     * @param nomMatiere La matière enseignée par le professeur.
+     */
     public Professeur(String nom, String prenom, Matiere nomMatiere) {
         this.nom = nom;
         this.prenom = prenom;
         this.nomMatiere = nomMatiere;
     }
 
+    /**
+     * Constructeur par défaut de la classe Professeur.
+     */
     public Professeur() {
 
     }

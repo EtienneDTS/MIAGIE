@@ -6,6 +6,10 @@ import org.hibernate.Hibernate;
 
 import java.util.Objects;
 
+/**
+ * Classe représentant la clé composite pour l'entité Évaluer.
+ * Cette clé est composée de l'ID de l'élève et du nom de la matière.
+ */
 @Embeddable
 public class EvaluerId implements java.io.Serializable {
     private static final long serialVersionUID = 5268995373866791819L;
@@ -31,6 +35,12 @@ public class EvaluerId implements java.io.Serializable {
         this.nomMatiere = nomMatiere;
     }
 
+    /**
+     * Vérifie l'égalité entre deux instances de EvaluerId.
+     *
+     * @param o L'objet a comparé avec l'instance actuelle.
+     * @return true si les deux objets sont égaux, false sinon.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -40,6 +50,12 @@ public class EvaluerId implements java.io.Serializable {
                 Objects.equals(this.nomMatiere, entity.nomMatiere);
     }
 
+
+    /**
+     * Retourne le code de hachage pour l'instance actuelle.
+     *
+     * @return Le code de hachage calculé.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(idEleve, nomMatiere);

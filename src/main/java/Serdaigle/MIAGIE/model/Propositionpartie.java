@@ -2,6 +2,10 @@ package Serdaigle.MIAGIE.model;
 
 import jakarta.persistence.*;
 
+/**
+ * Classe représentant une proposition de partie dans le système MIAGIE.
+ * Une proposition de partie contient des informations sur les élèves impliqués et la mise.
+ */
 @Entity
 @Table(name = "propositionpartie", schema = "miagie")
 public class Propositionpartie {
@@ -43,6 +47,7 @@ public class Propositionpartie {
     public void setMise(Integer mise) {
         this.mise = mise;
     }
+
 
     public Boolean getRefuse() {
         return refuse;

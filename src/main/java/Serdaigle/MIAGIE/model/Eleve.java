@@ -5,6 +5,17 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 
+/**
+ * Représente un élève dans le système MIAGIE.
+ *
+ * La classe Eleve correspond à l'entité "eleve" dans la base de données.
+ * Elle contient les informations personnelles de l'élève ainsi qu'une référence
+ * à la maison à laquelle il appartient.
+ *
+ * @author Serdaigle
+ * @version 1.0
+ * @since 2024-10-09
+ */
 @Entity
 @Table(name = "eleve", schema = "miagie")
 public class Eleve {
@@ -28,6 +39,9 @@ public class Eleve {
     @JsonBackReference
     private Maison maison;
 
+    /**
+     * Constructeur par défaut.
+     */
     public Eleve() {
     }
     /**

@@ -2,6 +2,10 @@ package Serdaigle.MIAGIE.model;
 
 import jakarta.persistence.*;
 
+/**
+ * Classe représentant une partie dans le système MIAGIE.
+ * Chaque partie possède un identifiant unique.
+ */
 @Entity
 @Table(name = "partie", schema = "miagie")
 public class Partie {

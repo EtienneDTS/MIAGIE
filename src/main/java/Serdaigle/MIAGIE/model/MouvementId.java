@@ -6,6 +6,10 @@ import org.hibernate.Hibernate;
 
 import java.util.Objects;
 
+/**
+ * Classe représentant une clé composite pour les mouvements d'élèves.
+ * Cette classe est utilisée pour identifier de manière unique un mouvement associé à un élève.
+ */
 @Embeddable
 public class MouvementId implements java.io.Serializable {
     private static final long serialVersionUID = 6957316629164369763L;
@@ -31,6 +35,12 @@ public class MouvementId implements java.io.Serializable {
         this.mouv = mouv;
     }
 
+    /**
+     * Vérifie si deux objets sont égaux.
+     *
+     * @param o L'objet a comparé.
+     * @return true si les objets sont égaux, sinon false.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -40,6 +50,12 @@ public class MouvementId implements java.io.Serializable {
                 Objects.equals(this.idEleve, entity.idEleve);
     }
 
+
+    /**
+     * Retourne un code de hachage pour l'objet.
+     *
+     * @return Le code de hachage de l'objet.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(mouv, idEleve);

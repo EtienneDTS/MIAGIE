@@ -5,6 +5,10 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
+/**
+ * Classe représentant une maison dans le système MIAGIE.
+ * Une maison peut avoir plusieurs élèves qui lui sont associés.
+ */
 @Entity
 @Table(name = "maison", schema = "miagie")
 public class Maison {
