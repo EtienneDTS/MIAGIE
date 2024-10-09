@@ -12,6 +12,7 @@ import Serdaigle.MIAGIE.repository.MatiereRepository;
 import Serdaigle.MIAGIE.repository.ProfesseurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.ListQuerydslPredicateExecutor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,8 +48,8 @@ public class EcoleService {
     }
 
     public Professeur saveProfesseur(String nom, String prenom, String nomMatiere) {
-
-        Professeur professeur = new Professeur(nom, prenom, nomMatiere);
+        Matiere matiere = matiereRepository.findByNomMatiere(nomMatiere);
+        Professeur professeur = new Professeur(nom, prenom, matiere);
         return professeurRepository.save(professeur);
     }
 
@@ -83,7 +84,7 @@ public class EcoleService {
         eleve.setPrenom(prenom);
         eleve.setTotalPoints(0);
         Maison m = maisonRepository.findByNomMaison(nomMaison);
-        eleve.setNomMaison(m);
+        eleve.setMaison(m);
         return eleveRepository.save(eleve);
     }
 
@@ -119,6 +120,17 @@ public class EcoleService {
 
     }
 
-
-
+    /*
+    public ResponseEntity<Void> ajouterPointsEleve(int idProfesseur, int idEleve, int nbPoints) {
+        Optional<Professeur> professeur = professeurRepository.findById(idProfesseur);
+        Optional<Eleve> eleve = eleveRepository.findById(idEleve);
+        if (professeur.isPresent() && eleve.isPresent()) {
+            Eleve e = eleve.get();
+            e.setTotalPoints(e.getTotalPoints() + nbPoints);
+            eleveRepository.save(e);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }*/
 }

@@ -12,8 +12,7 @@ public class Maison {
     @Column(name = "nomMaison", nullable = false, length = 50)
     private String nomMaison;
 
-    // Relation OneToMany avec les élèves
-    @OneToMany(mappedBy = "nomMaison", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "maison", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Eleve> eleves;
 

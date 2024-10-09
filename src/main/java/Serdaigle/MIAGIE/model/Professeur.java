@@ -1,5 +1,6 @@
 package Serdaigle.MIAGIE.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
@@ -18,11 +19,12 @@ public class Professeur {
     private String prenom;
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    //@ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nomMatiere", referencedColumnName = "nomMatiere", nullable = false)
-    private String nomMatiere;
+    @JsonBackReference
+    private Matiere nomMatiere;
 
-    public Professeur(String nom, String prenom, String nomMatiere) {
+    public Professeur(String nom, String prenom, Matiere nomMatiere) {
         this.nom = nom;
         this.prenom = prenom;
         this.nomMatiere = nomMatiere;
@@ -56,11 +58,11 @@ public class Professeur {
         this.prenom = prenom;
     }
 
-    public String getNomMatiere() {
-        return nomMatiere;
+    public Matiere getNomMatiere() {
+        return this.nomMatiere;
     }
 
-    public void setNomMatiere(String nomMatiere) {
+    public void setNomMatiere(Matiere nomMatiere) {
         this.nomMatiere = nomMatiere;
     }
 

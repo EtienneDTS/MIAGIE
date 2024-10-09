@@ -23,15 +23,17 @@ public class Eleve {
     @Column(name = "prenom", length = 50)
     private String prenom;
 
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nomMaison", referencedColumnName = "nomMaison", nullable = false)
     @JsonBackReference
-    private Maison nomMaison;  // Remplace le String par Maison
+    private Maison maison;
 
     public Eleve() {
     }
-
+    /**
+     * blabla
+     * @return
+     */
     public Integer getId() {
         return id;
     }
@@ -40,11 +42,12 @@ public class Eleve {
         this.id = id;
     }
 
-    public void setNomMaison(Maison nomMaison) {
-        this.nomMaison = nomMaison;
+    public Maison getMaison() {
+        return maison;
     }
-    public Maison getNomMaison() {
-        return this.nomMaison;
+
+    public void setMaison(Maison maison) {
+        this.maison = maison;
     }
 
     public Integer getTotalPoints() {

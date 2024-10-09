@@ -42,10 +42,22 @@ public class ProfesseurController {
         return ecoleService.saveProfesseur(nom,prenom,nomMatiere);
     }
 
+    /*
+    @PostMapping
+    public ResponseEntity<Void> ajouterPointsEleve(@RequestBody Map<String, String> body) {
+        int idProfesseur = Integer.parseInt(body.get(body.get("idProfesseur")));
+        int idEleve = Integer.parseInt(body.get(body.get("idEleve")));
+        int nbPoints = Integer.parseInt(body.get("nbPoints"));
+        return ecoleService.ajouterPointsEleve(idProfesseur,idEleve,nbPoints);
+    }*/
+
+
     // DELETE /professeur/{id} : Supprimer un professeur par son ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProfesseur(@PathVariable Integer id) {
         ecoleService.deleteProfesseurById(id);
         return ResponseEntity.noContent().build();
     }
+
+
 }
