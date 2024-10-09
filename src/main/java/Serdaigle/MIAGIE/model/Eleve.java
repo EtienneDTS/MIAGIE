@@ -23,7 +23,7 @@ public class Eleve {
     @Column(name = "prenom", length = 50)
     private String prenom;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "nomMaison", referencedColumnName = "nomMaison", nullable = false)
     private Maison nomMaison;
 
@@ -43,6 +43,10 @@ public class Eleve {
 
     public Maison getMaison() {
         return nomMaison;
+    }
+
+    public String getNomMaison(){
+        return nomMaison.getNomMaison();
     }
 
     public void setMaison(Maison maison) {

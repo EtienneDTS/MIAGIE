@@ -13,4 +13,11 @@ public interface MaisonRepository extends JpaRepository<Maison, Integer> {
     Maison getMaisonWithElevesByNomMaison(@Param("nomMaison") String nomMaison);
 
     Maison findByNomMaison(String nomMaison);
+
+    @Query("SELECT SUM(e.totalPoints) FROM Eleve e WHERE e.nomMaison.nomMaison = :nomMaison")
+    int countTotalPoints(@Param("nomMaison") String nomMaison);
+
+
+    @Query("SELECT e.nomMaison, SUM(e.totalPoints) FROM Eleve e GROUP BY e.nomMaison ORDER by SUM(e.totalPoints) DESC  limit 1")
+    Maison getMaisonGagnante();
 }

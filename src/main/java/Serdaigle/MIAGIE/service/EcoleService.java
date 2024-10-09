@@ -4,39 +4,31 @@ import Serdaigle.MIAGIE.dto.EleveDTO;
 import Serdaigle.MIAGIE.dto.MaisonDTO;
 import Serdaigle.MIAGIE.exception.EleveNotFoundException;
 import Serdaigle.MIAGIE.exception.ProfesseurNotFoundException;
-import Serdaigle.MIAGIE.model.Eleve;
-import Serdaigle.MIAGIE.model.Maison;
-import Serdaigle.MIAGIE.model.Matiere;
-import Serdaigle.MIAGIE.model.Professeur;
-import Serdaigle.MIAGIE.repository.EleveRepository;
-import Serdaigle.MIAGIE.repository.MaisonRepository;
-import Serdaigle.MIAGIE.repository.MatiereRepository;
-import Serdaigle.MIAGIE.repository.ProfesseurRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.querydsl.ListQuerydslPredicateExecutor;
-import org.springframework.http.ResponseEntity;
+import Serdaigle.MIAGIE.model.*;
+import Serdaigle.MIAGIE.repository.*;
 import org.springframework.stereotype.Service;
-
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
-
 public class EcoleService {
-
-
 
     private final ProfesseurRepository professeurRepository;
     private final EleveRepository eleveRepository;
     private final MatiereRepository matiereRepository;
     private final MaisonRepository maisonRepository;
-    public EcoleService(ProfesseurRepository professeurRepository, EleveRepository eleveRepository, MatiereRepository matiereRepository,MaisonRepository maisonRepository) {
+    private final EvaluerRepository evaluerRepository;
+    public EcoleService(ProfesseurRepository professeurRepository, EleveRepository eleveRepository, MatiereRepository matiereRepository,
+                        MaisonRepository maisonRepository, EvaluerRepository evaluerRepository) {
 
         this.professeurRepository = professeurRepository;
         this.eleveRepository = eleveRepository;
         this.matiereRepository = matiereRepository;
         this.maisonRepository = maisonRepository;
+        this.evaluerRepository = evaluerRepository;
     }
 
     // Appels des méthodes Professeur
@@ -72,15 +64,35 @@ public class EcoleService {
     /*
      * Méthode pour obtenir un élève par son ID
      */
+
+
+    // Pour l'API
+    //public EleveDTO getDTOEleveById(int id) {
+
+    //    return eleveDTO;
+        //return eleveDTO.orElseThrow(() -> new EleveNotFoundException("Student not found with id: " + id));
+    //}
+
+    //Pour interne
     public Eleve getEleveById(int id) {
         Optional<Eleve> eleve = eleveRepository.findById(id);
         return eleve.orElseThrow(() -> new EleveNotFoundException("Student not found with id: " + id));
     }
 
-    public Eleve getEleveByIdWithMaison(int idEleve) {
+    public EleveDTO getEleveByIdWithMaison(int idEleve) {
         //Eleve eleve = eleveRepository.getEleveByIdWithMaison(idEleve);
         //return eleve;
-        return eleveRepository.getEleveByIdWithMaison(idEleve);
+
+
+        Optional<Eleve> eleve = eleveRepository.findById(idEleve);
+        if(!eleve.isPresent()) {
+            throw new EleveNotFoundException("Eleve not found with id: " + idEleve);
+        }
+        EleveDTO eleveDTO = new EleveDTO(eleve.get().getId(), eleve.get().getNom(),
+                eleve.get().getPrenom(), eleve.get().getTotalPoints(), eleve.get().getNomMaison());
+
+
+        return eleveDTO;
 
     }
 
@@ -88,7 +100,6 @@ public class EcoleService {
      * Méthode pour ajouter un nouvel élève
      */
     public Eleve addEleve(String nom, String prenom, String nomMaison) {
-
         Eleve eleve = new Eleve();
         eleve.setNom(nom);
         eleve.setPrenom(prenom);
@@ -106,7 +117,6 @@ public class EcoleService {
     }
 
     // Appels matières
-
     public Iterable<Matiere> getAllMatieres() {
         return matiereRepository.findAll();
     }
@@ -114,50 +124,119 @@ public class EcoleService {
     public Matiere getMatiereByNomMatiere(String nomMatiere) {
         Matiere matiere = matiereRepository.findByNomMatiere(nomMatiere);
         return matiere;
-
     }
 
 
     // Methodes Maisons
 
-    public Iterable<Maison> getAllMaisons() {
-        return maisonRepository.findAll();
+    public Iterable<MaisonDTO> getAllMaisons() {
+        Iterable<Maison>  maisons = maisonRepository.findAll();
+        ArrayList<MaisonDTO> maisonDtoList = new ArrayList<>();
+        for(Maison maison : maisons) {
+            MaisonDTO mDto = this.convertMaisonToDto(this.getMaisonWithElevesByNomMaison(maison.getNomMaison()));
+            maisonDtoList.add(mDto);
+        }
+        return maisonDtoList;
     }
 
     public Maison getMaisonWithElevesByNomMaison(String nomMaison) {
         Maison maison = maisonRepository.getMaisonWithElevesByNomMaison(nomMaison);
+        int totalPoints = maisonRepository.countTotalPoints(nomMaison);
+        MaisonDTO maisonDTO = new MaisonDTO(maison.getNomMaison(),totalPoints,convertDBElevesListtoDTOList(maison.getEleves()));
         return maison;
 
     }
 
-    public MaisonDTO convertToDto(Maison maison) {
-        MaisonDTO maisonDto = new MaisonDTO();
-        maisonDto.setNomMaison(maison.getNomMaison());
+    public MaisonDTO convertMaisonToDto(Maison maison) {
+        int totalPoints = maisonRepository.countTotalPoints(maison.getNomMaison());
+        List<EleveDTO> eleveDtos = this.convertDBElevesListtoDTOList(maison.getEleves());
 
-        List<EleveDTO> eleveDtos = maison.getEleves().stream().map(eleve -> {
-            EleveDTO eleveDto = new EleveDTO();
-            eleveDto.setIdEleve(eleve.getId());
-            eleveDto.setTotalPoints(eleve.getTotalPoints());
-            eleveDto.setNom(eleve.getNom());
-            eleveDto.setPrenom(eleve.getPrenom());
-            return eleveDto;
-        }).collect(Collectors.toList());
-
-        maisonDto.setEleves(eleveDtos);
+        //maisonDto.setEleves(eleveDtos);
+        MaisonDTO maisonDto = new MaisonDTO(maison.getNomMaison(),  totalPoints, eleveDtos);
         return maisonDto;
+
     }
 
-    /*
-    public ResponseEntity<Void> ajouterPointsEleve(int idProfesseur, int idEleve, int nbPoints) {
-        Optional<Professeur> professeur = professeurRepository.findById(idProfesseur);
-        Optional<Eleve> eleve = eleveRepository.findById(idEleve);
-        if (professeur.isPresent() && eleve.isPresent()) {
-            Eleve e = eleve.get();
-            e.setTotalPoints(e.getTotalPoints() + nbPoints);
-            eleveRepository.save(e);
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
+
+    // Méthodes d'évaluation (Evaluer)
+    public Iterable<Evaluer> getAllEvaluer() {
+        return evaluerRepository.findAll();
+    }
+
+
+    public Evaluer addEvaluer(int idEleve, int idProfesseur, int nbPoints) {
+
+        Eleve eleve = this.getEleveById(idEleve);
+        Professeur professeur = this.getProfesseurById(idProfesseur);
+        String nomMatiere = professeur.getNomMatiere().getNomMatiere();
+
+        // Créer l'ID composite pour Evaluer
+        EvaluerId evaluerId = new EvaluerId();
+        evaluerId.setIdEleve(eleve.getId());  // Supposons que Eleve ait une méthode getId()
+        evaluerId.setNomMatiere(nomMatiere);
+
+        // Une évaluation contient : idEleve (json), nomMatière (à récup par professeur), nbPoints
+        Evaluer evaluer = new Evaluer();
+        evaluer.setId(evaluerId);
+        evaluer.setIdEleve(eleve);
+        evaluer.setNote(nbPoints);
+        evaluer.setDateEval(LocalDate.from(LocalDateTime.now()));
+
+        System.out.println(evaluer);
+        eleveRepository.addPoints(idEleve, nbPoints);
+        return evaluerRepository.save(evaluer);
+    }
+
+    public Iterable<EleveDTO> getEleveFromOtherHouse() {
+        // Récupérer la maison de l'utilisateur actuel
+        ArrayList<EleveDTO> elevesPasASerdaigle = new ArrayList<>();
+        // Rechercher les élèves dans les autres maisons
+        Iterable<Eleve> eleves = eleveRepository.findElevesFromOtherHouses();
+        for (Eleve e : eleves){
+            EleveDTO edto = this.convertEleveToDto(e);
+            elevesPasASerdaigle.add(edto);
         }
-    }*/
+        return elevesPasASerdaigle;
+    }
+
+
+
+
+
+    // ______________METHODES PRIVEES - maniulation structures de données___________________
+
+    /**
+     * Convertit un modèle Eleve BDD en modèle DTO
+     * @param eleve
+     * @return
+     */
+    private EleveDTO convertEleveToDto(Eleve eleve) {
+        return new EleveDTO(
+                eleve.getId(),
+                eleve.getNom(),
+                eleve.getPrenom(),
+                eleve.getTotalPoints(),
+                eleve.getNomMaison()
+        );
+    }
+
+    /**
+     * Convertit une liste de modeles d'eleves bdd en une liste DTO
+     * @param eleves
+     * @return
+     */
+    private ArrayList<EleveDTO> convertDBElevesListtoDTOList(List<Eleve> eleves){
+        ArrayList<EleveDTO> elevesDto= new ArrayList<>();
+        for (Eleve e : eleves){
+            elevesDto.add(this.convertEleveToDto(e));
+        }
+        return elevesDto;
+    }
+
+
+    public MaisonDTO getMaisonGagnante() {
+        Maison maison = maisonRepository.getMaisonGagnante();
+        MaisonDTO maisonDTO = this.convertMaisonToDto(maison);
+        return maisonDTO;
+    }
 }
