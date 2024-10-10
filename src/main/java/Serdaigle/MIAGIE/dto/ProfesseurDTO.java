@@ -1,31 +1,22 @@
 package Serdaigle.MIAGIE.dto;
 
-public class ProfesseurDTO {
-    private int id;
-    private String nom;
-    private String prenom;
+public class ProfesseurDTO extends PersonneDTO{
+
     private String nomMatiere;
-
     public ProfesseurDTO(int id, String nom, String prenom, String nomMatiere) {
-        this.id = id;
-        this.nom = nom;
-        this.prenom = prenom;
+        super(id, nom, prenom);
         this.nomMatiere = nomMatiere;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getNom() {
-        return nom;
     }
 
     public String getNomMatiere() {
         return nomMatiere;
     }
 
-    public String getPrenom() {
-        return prenom;
+    @Override
+    public void definirJetonUtilisateur() {
+        // Définir le jeton comme étant "professeur"
+        this.setJeton(JetonUtilisateur.professeur);
     }
+
+
 }
