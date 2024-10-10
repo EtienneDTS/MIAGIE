@@ -1,5 +1,4 @@
 package Serdaigle.MIAGIE.controller;
-
 import Serdaigle.MIAGIE.dto.EleveDTO;
 import Serdaigle.MIAGIE.exception.EleveNotFoundException;
 import Serdaigle.MIAGIE.exception.ElevesDansLaMemeMaisonException;
@@ -25,24 +24,32 @@ import java.util.Map;
 public class EleveController {
 
 
-    private final EcoleService ecoleService;
-
     /**
-     *
+     * Le controleur eleve fait appel à un service ecoleService pour effectuer les opérations métier sur les élèves
      * @param ecoleService
      */
+    private final EcoleService ecoleService;
 
+
+    /**
+     * Le controleur fait appel à un service chiFouMiService pour effectuer les opérations métier sur les parties
+     * @param chiFouMiService
+     */
     private final ChiFouMiService chiFouMiService;
+
 
     public EleveController(EcoleService ecoleService, ChiFouMiService chiFouMiService) {
         this.ecoleService = ecoleService;
         this.chiFouMiService = chiFouMiService;
     }
 
-    @GetMapping
-    /*
-     * Endpoint pour obtenir tous les élèves
+    /**
+     * Recupere tous les eleves de l'école.
+     * Peut être filtré avec un paramètre fourni dans l'url : ?filter=...
+     * @param filter
+     * @return
      */
+    @GetMapping
     public Iterable<EleveDTO> getAllEleves(@RequestParam(name = "filter", required = false) String filter) {
         Iterable<EleveDTO> eleves = ecoleService.getAllEleves(filter);
         return ecoleService.getAllEleves(filter);
@@ -50,7 +57,7 @@ public class EleveController {
 
 
     /**
-     * Recoit les appel
+     * Endpoint permettant de récupérer un élève à partir de son id
      * @param id
      * @return
      */
@@ -64,19 +71,18 @@ public class EleveController {
         }
     }
 
-    @GetMapping("/search")
-    public Iterable<EleveDTO> searchWithFilter(@PathVariable String nom){
-        Iterable<EleveDTO> eleves = this.ecoleService.searchWithFilter(nom);
-        return eleves;
-    }
-
+    /**
+     * Endpoint pour obtenir les élèves qui ne sont pas à Serdaigle
+     * @return
+     */
     @GetMapping("/fromOtherHouses")
     public Iterable<EleveDTO> getFromOtherHouses() {
         return ecoleService.getEleveFromOtherHouse();
     }
 
     /*
-     * Endpoint pour ajouter un nouvel élève
+     * Endpoint pour ajouter un nouvel élève.
+     * Prend un body de type Map<String, String> avec les clés nom, prenom et nomMaison
      */
     @PostMapping
     public Eleve createEleve(@RequestBody Map<String, String> body) {
@@ -86,6 +92,12 @@ public class EleveController {
         return ecoleService.addEleve(nom,prenom,nomMaison);
     }
 
+    /**
+     * Endpoint pour créer une proposition de partie.
+     * Prend un body de type Map<String, Integer> avec les clés idJoueurSource, idJoueurCible et mise
+     * @param body
+     * @return
+     */
     @PostMapping("/propositionPartie"  )
     public ResponseEntity creerPropositionPartie(@RequestBody Map<String, Integer> body) {
         try{
@@ -115,6 +127,10 @@ public class EleveController {
         }
     }
 
+    /**
+     * Endpoint pour supprimer un élève
+     * @param id
+     */
     @DeleteMapping("/{id}")
     /*
      * Endpoint pour supprimer un élève
@@ -124,8 +140,23 @@ public class EleveController {
     }
 
 
+    /**
+     * Permet de récuperer les propositions de partie reçues par l'id du joueur passé en paramètres qui n'ont pas encore été acceptées
+     * @param id
+     * @return
+     */
     @GetMapping("/voirPropositionsPartieRecues/{id}")
     public Iterable<PropositionPartieDTO> voirPropositionsPartieRecues(@PathVariable Integer id){
+        return this.chiFouMiService.getAllPropositionsPartieRecues(id);
+    }
+
+    /**
+     * endpoint permettant de récupérer les parties proposées par l'id du joueur passé en paramètres qui n'ont pas encore abouti à une partie
+     * @param id
+     * @return
+     */
+    @GetMapping("/voirPropositionsPartieEnAttente/{id}")
+    public Iterable<PropositionPartieDTO> voirPropositionsPartieEnAttente(@PathVariable Integer id){
         return this.chiFouMiService.getAllPropositionsPartieRecues(id);
     }
 
