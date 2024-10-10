@@ -13,6 +13,11 @@ public class EleveDTO extends PersonneDTO{
         this.nomMaison = nomMaison;
     }
 
+    public String getNomMaison() {
+        return nomMaison;
+    }
+
+
 
     public void definirJetonUtilisateur() {
         this.setJeton(JetonUtilisateur.eleve);

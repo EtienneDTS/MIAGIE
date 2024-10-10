@@ -7,6 +7,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "eleve", schema = "miagie")
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Eleve {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +28,7 @@ public class Eleve {
     @JoinColumn(name = "nomMaison", referencedColumnName = "nomMaison", nullable = false)
     private Maison nomMaison;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public Eleve() {
     }
     /**

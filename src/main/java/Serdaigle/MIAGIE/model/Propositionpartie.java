@@ -1,7 +1,9 @@
 package Serdaigle.MIAGIE.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "propositionpartie", schema = "miagie")
 public class Propositionpartie {
@@ -16,8 +18,8 @@ public class Propositionpartie {
     @Column(name = "refuse")
     private Boolean refuse;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "ideleve_vainqueur", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "ideleve_vainqueur", nullable = true)
     private Eleve ideleveVainqueur;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -28,52 +30,48 @@ public class Propositionpartie {
     @JoinColumn(name = "ideleve_lanceur", nullable = false)
     private Eleve ideleveLanceur;
 
+
+
+    public Propositionpartie(Eleve eSource, Eleve eDest, int mise) {
+        this.ideleveLanceur = eSource;
+        this.ideleveReceveur = eDest;
+        this.mise = mise;
+        this.refuse = false;
+    }
+    public Propositionpartie() {
+    }
+
+
+
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public Integer getMise() {
         return mise;
-    }
-
-    public void setMise(Integer mise) {
-        this.mise = mise;
     }
 
     public Boolean getRefuse() {
         return refuse;
     }
 
+
     public void setRefuse(Boolean refuse) {
         this.refuse = refuse;
     }
 
-    public Eleve getIdeleveVainqueur() {
-        return ideleveVainqueur;
-    }
 
-    public void setIdeleveVainqueur(Eleve ideleveVainqueur) {
-        this.ideleveVainqueur = ideleveVainqueur;
-    }
 
-    public Eleve getIdeleveReceveur() {
+
+    public Eleve getEleveReceveur() {
         return ideleveReceveur;
     }
 
-    public void setIdeleveReceveur(Eleve ideleveReceveur) {
-        this.ideleveReceveur = ideleveReceveur;
-    }
 
-    public Eleve getIdeleveLanceur() {
+    public Eleve getEleveLanceur() {
         return ideleveLanceur;
     }
 
-    public void setIdeleveLanceur(Eleve ideleveLanceur) {
-        this.ideleveLanceur = ideleveLanceur;
-    }
 
 }

@@ -55,7 +55,7 @@ public class EcoleService {
 
     public Professeur saveProfesseur(String nom, String prenom, String nomMatiere) {
         Matiere matiere = matiereRepository.findByNomMatiere(nomMatiere);
-        Professeur professeur = new Professeur(nom, prenom, matiere);
+        Professeur professeur = new Professeur(nom, prenom, matiere,false);
         return professeurRepository.save(professeur);
     }
 

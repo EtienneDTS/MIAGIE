@@ -18,16 +18,20 @@ public class Professeur {
     @Column(name = "prenom", length = 50)
     private String prenom;
 
+    @Column(name = "isDirecteur")
+    private Boolean isDirecteur;
+
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nomMatiere", referencedColumnName = "nomMatiere", nullable = false)
     @JsonBackReference
     private Matiere nomMatiere;
 
-    public Professeur(String nom, String prenom, Matiere nomMatiere) {
+    public Professeur(String nom, String prenom, Matiere nomMatiere, Boolean isDirecteur) {
         this.nom = nom;
         this.prenom = prenom;
         this.nomMatiere = nomMatiere;
+        this.isDirecteur = isDirecteur;
     }
 
     public Professeur() {
@@ -66,4 +70,11 @@ public class Professeur {
         this.nomMatiere = nomMatiere;
     }
 
+    public Boolean getIsDirecteur() {
+        return isDirecteur;
+    }
+
+    public void setIsDirecteur(Boolean isDirecteur) {
+        this.isDirecteur = isDirecteur;
+    }
 }
