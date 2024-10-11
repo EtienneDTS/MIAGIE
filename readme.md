@@ -24,12 +24,16 @@ S'agissant d'un projet WEB, l'application se base sur plusieurs éléments pour 
 2. Installer et lancer l'application MIAGIE FRONT (projet Git à cloner) et interagir avec le serveur grâce à l'IHM
 
 ## III - Services fournis par l'application
-Eleve
 
+###Eleve
 GET /eleve : récupère tous les élèves
+
 GET /eleve/id : Récupère un élève avec par son ID
+
 GET /eleve/fromOtherHouses : Récupère tous les élèves n'appartenant pas à Serdaigle
+
 GET /eleve/voirPropositionsPartieRecues/id : Récupère les proposition de parties reçues par l'élève avec son id.
+
 GET /eleve/voirPropositionsPartieProposees/id : Récupère les proposition de parties proposées par l'élève avec son id.
 
 POST /eleve : Crée un élève.
@@ -52,10 +56,7 @@ idEleveCible : int
 
 DELETE /eleve/id : Supprime l'élève par son ID
 
-
-
-Evaluer
-
+### Evaluer
 GET /evaluer : Récupère toutes les évaluations => Useless.
 
 POST /evaluer : Crée une évaluation pour un élève, avec un nbPoint et effectuée par un professeur. (L'identifiant professeur permet de récupérer le nom de la matière dans le service)
@@ -64,20 +65,21 @@ idEleve : int
 idProfesseur : int
 nbPoints : int
 
-Maison
-
+### Maison
 GET /maison : Racupère toutes les maisons (avec leurs élèves)
+
 GET /maison/nomMaison : Récupère une maison via son nom (avec ses élèves)
-get /maison/nomMaisonGagnante : Récupère le nom de la maison gagnante (avec ses élèves)
 
-Matiere
+Get /maison/nomMaisonGagnante : Récupère le nom de la maison gagnante (avec ses élèves)
 
+### Matiere
 GET /matiere : Récupère toutes les matières
+
 GET /matiere/nomMatiere : Récupère une matière via son nom
 
-Professeur
-
+### Professeur
 GET /professeur : Récupère tous les professeurs (avec la matière qu'ils enseignent)
+
 GET /professeur/id : Récupère un professeur via son id (avec la matière qu'il enseigne)
 
 POST /professeur : Crée un professeur.
@@ -87,4 +89,3 @@ prenom : String
 nomMatiere : String
 
 DELETE /professeur/id : Supprime un professeur via son ID.
-
