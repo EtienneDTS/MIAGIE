@@ -25,7 +25,7 @@ S'agissant d'un projet WEB, l'application se base sur plusieurs éléments pour 
 
 ## III - Services fournis par l'application
 
-###Eleve
+### Eleve
 GET /eleve : récupère tous les élèves
 
 GET /eleve/id : Récupère un élève avec par son ID
