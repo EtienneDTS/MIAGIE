@@ -115,7 +115,7 @@ public class ChiFouMiService {
     /**
      * Permet de récupérer toutes les propositions de partie reçues par un élève
      * @param id
-     * @return Iterable<PropositionPartieDTO>
+     * @return Iterable PropositionPartieDTO
      */
     public Iterable<PropositionPartieDTO> getAllPropositionsPartieRecues(Integer id) {
         // Recuperer l'eleve destinataire
@@ -130,7 +130,7 @@ public class ChiFouMiService {
     /**
      * Permet de récupérer toutes les propositions de partie proposées par un élève
      * @param id
-     * @return Iterable<PropositionPartieDTO>
+     * @return Iterable PropositionPartieDTO
      */
     public Iterable<PropositionPartieDTO> getAllPropositionsPartieProposees(Integer id) {
         //Recuperer l'eleve source

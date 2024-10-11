@@ -32,7 +32,7 @@ public class ProfesseurController {
     /**
      * GET /professeur
      * Endpoint pour récupérer tous les professeurs.
-     *
+     * @param filter Un filtre pour filtrer sur un substring
      * @return Une liste d'objets {@link ProfesseurDTO} représentant tous les professeurs.
      */
     @GetMapping

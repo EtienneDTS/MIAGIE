@@ -263,7 +263,7 @@ public class EcoleService {
 
     /**
      * Méthode pour obtenir toutes les évaluations
-     * @return Iterable<Evaluer>
+     * @return Iterable Evaluer
      */
     public Iterable<Evaluer> getAllEvaluer() {
         return evaluerRepository.findAll();

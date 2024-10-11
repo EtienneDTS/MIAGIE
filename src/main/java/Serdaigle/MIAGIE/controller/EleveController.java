@@ -106,7 +106,7 @@ public class EleveController {
     /**
      * POST /eleve/propositionPartie
      * Endpoint pour créer une proposition de partie.
-     * Prend un body de type Map<String, Integer> avec les clés idJoueurSource, idJoueurCible et mise.
+     * Prend un body de type Map String, Integer avec les clés idJoueurSource, idJoueurCible et mise.
      *
      * @param body Un objet contenant les informations de la proposition.
      *             Les clés doivent inclure :
@@ -200,7 +200,7 @@ public class EleveController {
     /**
      * POST /eleve/accepterUnePartie
      * Endpoint pour accepter une partie.
-     * Prend un body de type Map<String, Integer> avec les clés idProposition et idEleveCible.
+     * Prend un body de type Map String, Integer avec les clés idProposition et idEleveCible.
      *
      * @param body Un objet contenant les informations nécessaires pour accepter une partie.
      *             Les clés doivent inclure :
