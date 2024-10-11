@@ -1,18 +1,19 @@
 package Serdaigle.MIAGIE;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+/**
+ * Classe principale de l'application
+ * MiagieApplication
+ */
 @SpringBootApplication
-//@ComponentScan({"Serdaigle.MIAGIE.controller", "Serdaigle.MIAGIE.model", "Serdaigle.MIAGIE.service", "Serdaigle.MIAGIE.repository"})
-//@EntityScan({"Serdaigle.MIAGIE.controller", "Serdaigle.MIAGIE.model", "Serdaigle.MIAGIE.service", "Serdaigle.MIAGIE.repository"})
-//@EnableJpaRepositories(entityManagerFactoryRef="entityManagerFactory")
 public class MiagieApplication {
 
+	/**
+	 * Point d'entrée de l'application
+	 * @param args les arguments passés en ligne de commande
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(MiagieApplication.class, args);
 	}
