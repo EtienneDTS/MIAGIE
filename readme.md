@@ -16,7 +16,7 @@ S'agissant d'un projet WEB, l'application se base sur plusieurs éléments pour 
 - Importer le projet Maven (pom.xml) et installer les applications
 - Lancer l'application
 - L'application est accessible via l'url : http://localhost:8080/ (port par defaut)
-- ATTENTION : la base de données MySQL / MariaDB doit être lancée pour que l'application démarre (voir configurations de la BDD dans le fichier resources --> application.properties)
+- ATTENTION : la base de données MySQL / MariaDB doit être lancée au préalable pour que l'application démarre (voir configurations de la BDD dans le fichier resources --> application.properties)
 
 ### Communication avec les API
 - Pour accéder aux ressources fournis par le backend, il y a deux possibilités: 

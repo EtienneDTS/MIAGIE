@@ -13,13 +13,12 @@ public class Jeu {
      * Identifiant du jeu
      */
     @Id
-    @Column(name = "nomJeu", nullable = false)
+    @Column(name = "nomJeu", nullable = false, length = 50)
     private String nomJeu;
 
     /**
      * Constructeur de la classe Jeu
      */
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public Jeu() {
 
     }
